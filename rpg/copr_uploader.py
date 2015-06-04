@@ -1,17 +1,18 @@
 from rpg.command import Command
 from os.path import expanduser
+import configparser
 
 class CoprUploader:
     
-    def setup__copr_config(self, username, login, token):
+    def setup_config(self, username, login, token):
+        config = configparser.ConfigParser()
+        config['copr-cli'] = { 'username': username,
+                              'login': login,
+                              'token': token,
+                              'copr_url': 'http://copr.fedoraproject.org'}
         config_path = expanduser('~') + '/.config/copr'
-        begin = '[copr-cli] \n'
-        username = 'username = ' + username + '\n'
-        login = 'login = ' + login + '\n'
-        token = 'token = ' + token + '\n'
-        copr_url = 'copr_url = http://copr-fe-dev.cloud.fedoraproject.org'
         with open(config_path, 'w') as config_file:
-            config_file.write(begin + username + login + token + copr_url)
+            config.write(config_file)
                 
     
     def create_copr(self, name, chroots, description='', instructions=''):

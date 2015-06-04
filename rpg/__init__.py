@@ -167,6 +167,18 @@ class Base(object):
             for distro in distros:
                 self._package_builder.build(self.spec_path, self.archive_path,
                                             distro, arch)
+                                            
+    def copr_set_config(self, username, login, token):
+        self.copr = CoprUploader()
+        self.copr.setup_config(username, login, token)
+        
+    def copr_create_project(self, name, chroots, desc, intro):
+        self.copr = CoprUploader()
+        self.copr.create_copr(name, chroots, desc, intro)
+        
+    def copr_build(self, name, url):
+        self.copr = CoprUploader()
+        self.copr.build_copr(name, url)
 
     @staticmethod
     def compute_checksum(sources):
